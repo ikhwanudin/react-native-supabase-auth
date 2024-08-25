@@ -1,11 +1,32 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform, Text } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import {
+  Actionsheet,
+  ActionsheetBackdrop,
+  ActionsheetContent,
+  ActionsheetDragIndicator,
+  ActionsheetDragIndicatorWrapper,
+  ActionsheetItem,
+  ActionsheetItemText,
+  ActionsheetIcon,
+} from '@/components/gluestack/Actionsheet';
+import {
+  Button,
+  ButtonText,
+  ButtonSpinner,
+  ButtonIcon,
+  ButtonGroup,
+} from '@/components/gluestack/Button';
+import React from 'react';
 
 export default function HomeScreen() {
+  const [showActionsheet, setShowActionsheet] = React.useState(false)
+  const handleClose = () => setShowActionsheet(false)
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -17,6 +38,34 @@ export default function HomeScreen() {
       }>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Welcome!</ThemedText>
+        <Text className="text-2xl text-yellow-800">Hi</Text>
+        <Button onPress={() => setShowActionsheet(true)}>
+          <ButtonText>Open Actionsheet</ButtonText>
+        </Button>
+        <Actionsheet isOpen={showActionsheet} onClose={handleClose}>
+          <ActionsheetBackdrop />
+          <ActionsheetContent>
+            <ActionsheetDragIndicatorWrapper>
+              <ActionsheetDragIndicator />
+            </ActionsheetDragIndicatorWrapper>
+            <ActionsheetItem onPress={handleClose}>
+              <ActionsheetItemText>Edit Message</ActionsheetItemText>
+            </ActionsheetItem>
+            <ActionsheetItem onPress={handleClose}>
+              <ActionsheetItemText>Mark Unread</ActionsheetItemText>
+            </ActionsheetItem>
+            <ActionsheetItem onPress={handleClose}>
+              <ActionsheetItemText>Remind Me</ActionsheetItemText>
+            </ActionsheetItem>
+            <ActionsheetItem onPress={handleClose}>
+              <ActionsheetItemText>Add to Saved Items</ActionsheetItemText>
+            </ActionsheetItem>
+            <ActionsheetItem isDisabled onPress={handleClose}>
+              <ActionsheetItemText>Delete</ActionsheetItemText>
+            </ActionsheetItem>
+          </ActionsheetContent>
+        </Actionsheet>
+
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
